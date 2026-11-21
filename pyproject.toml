@@ -1,0 +1,10 @@
+[project]
+name = "skracacz"
+version = "0.2.0"
+description = "Skracacz linków ze statystyką kliknięć (Cloudflare Workers + D1)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = ["workers-py", "workers-runtime-sdk"]

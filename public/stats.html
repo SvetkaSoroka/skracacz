@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Link stats, Klik</title>
+  <meta name="description" content="Private click statistics for one short link: country, time and source.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="bar">
+    <div class="container bar__inner">
+      <a class="logo" href="/" aria-label="Klik, home">Klik</a>
+      <nav aria-label="Main">
+        <a href="/">Shorten a link</a>
+        <a href="/#api">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="stats-page">
+    <div class="container" id="page" aria-live="polite">
+      <div class="loading" aria-label="Loading stats"><span></span><span></span><span></span></div>
+      <noscript>
+        <div class="message">
+          <h1>This page needs JavaScript</h1>
+          <p>The stats are loaded from the API. You can also call <code class="mono">GET /api/links/{code}/stats</code> with your key.</p>
+        </div>
+      </noscript>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__inner">
+      <p>Times are shown in your time zone. Hour-of-day counts use UTC.</p>
+      <p>Runs on Cloudflare Workers (Python) and D1.</p>
+    </div>
+  </footer>
+
+  <script src="/stats.js"></script>
+</body>
+</html>

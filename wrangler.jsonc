@@ -1,0 +1,23 @@
+{
+	"name": "skracacz",
+	"main": "src/entry.py",
+	"compatibility_date": "2026-11-01",
+	"compatibility_flags": ["python_workers"],
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"html_handling": "auto-trailing-slash",
+		"not_found_handling": "none"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "skracacz",
+			"database_id": "70fe9ad0-e662-491e-8217-a9d59beaafe2",
+			"migrations_dir": "migrations"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}

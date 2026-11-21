@@ -1,0 +1,12 @@
+{
+	"name": "skracacz",
+	"version": "0.2.0",
+	"private": true,
+	"scripts": {
+		"dev": "uv run pywrangler dev",
+		"deploy": "uv run pywrangler deploy",
+		"db:migrate:local": "npx wrangler d1 migrations apply skracacz --local",
+		"db:migrate:remote": "npx wrangler d1 migrations apply skracacz --remote",
+		"test": "python3 -m unittest discover -s tests -v"
+	}
+}

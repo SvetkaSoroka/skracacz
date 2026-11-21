@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klik, a link shortener that counts clicks</title>
+  <meta name="description" content="Shorten a link and see where its clicks come from: country, time and source.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="bar">
+    <div class="container bar__inner">
+      <a class="logo" href="/" aria-label="Klik, home">Klik</a>
+      <nav aria-label="Main">
+        <a href="#recorded">What we record</a>
+        <a href="#api">API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="home">
+    <div class="container home__grid">
+      <div>
+        <h1>Short links that count their clicks.</h1>
+        <p class="lead">Every click is logged with its country, time and source.</p>
+
+        <form class="shorten field" id="form" novalidate>
+          <label for="url">Long link</label>
+          <div class="field__row">
+            <input class="input" id="url" name="url" type="url" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://example.com/a/very/long/path" required aria-describedby="help">
+            <button class="btn btn--primary" type="submit">Shorten</button>
+          </div>
+          <p class="help" id="help" aria-live="polite">No account needed.</p>
+          <noscript><p class="help is-error">This form needs JavaScript. The API below works without it.</p></noscript>
+        </form>
+
+        <section class="result sheet" id="result" hidden>
+          <h2 class="visually-hidden">Your new link</h2>
+          <dl>
+            <div>
+              <dt>Short link</dt>
+              <dd>
+                <a class="short-link" id="short-link" href="#" target="_blank" rel="noopener"></a>
+                <button class="btn btn--sm" type="button" id="copy-short">Copy</button>
+              </dd>
+            </div>
+            <div>
+              <dt>Private stats link</dt>
+              <dd>
+                <span class="private-link" id="stats-link"></span>
+                <button class="btn btn--sm" type="button" id="copy-stats">Copy</button>
+                <a class="btn btn--sm" id="open-stats" href="#">Open stats</a>
+              </dd>
+            </div>
+          </dl>
+          <p class="result__note">Save the private link now. It is the only way to see the stats or delete the link, because we store only a hash of its key.</p>
+          <div class="actions">
+            <button class="btn btn--sm" type="button" id="again">Shorten another link</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="sheet" id="recorded">
+        <div class="sheet__head">
+          <h2>What one click records</h2>
+        </div>
+        <table class="table table--stack">
+          <thead><tr><th scope="col">Field</th><th scope="col">Where it comes from</th><th scope="col">Example</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Field">Country</td><td data-label="From">Cloudflare adds it to every request</td><td data-label="Example" class="mono">PL</td></tr>
+            <tr><td data-label="Field">Time</td><td data-label="From">Server clock at the moment of the click</td><td data-label="Example" class="mono">2026-11-20 09:33 UTC</td></tr>
+            <tr><td data-label="Field">Source</td><td data-label="From">Domain from the Referer header, if the browser sends one</td><td data-label="Example" class="mono">instagram.com</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="container">
+      <section class="section" id="api">
+        <h2>API</h2>
+        <p>The page above uses the same JSON API. Private endpoints take the key as <code class="mono">Authorization: Bearer &lt;key&gt;</code>.</p>
+        <div class="sheet">
+          <table class="table table--stack">
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">What it does</th><th scope="col">Key</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Method"><code class="mono">POST</code></td><td data-label="Path" class="mono">/api/links</td><td data-label="Does">Creates a short link, returns its code and private key</td><td data-label="Key">no</td></tr>
+              <tr><td data-label="Method"><code class="mono">GET</code></td><td data-label="Path" class="mono">/{code}</td><td data-label="Does">Redirects with 302 and records the click</td><td data-label="Key">no</td></tr>
+              <tr><td data-label="Method"><code class="mono">GET</code></td><td data-label="Path" class="mono">/api/links/{code}</td><td data-label="Does">Destination, creation date, click count</td><td data-label="Key">yes</td></tr>
+              <tr><td data-label="Method"><code class="mono">GET</code></td><td data-label="Path" class="mono">/api/links/{code}/stats</td><td data-label="Does">Clicks by country, day, hour and source</td><td data-label="Key">yes</td></tr>
+              <tr><td data-label="Method"><code class="mono">DELETE</code></td><td data-label="Path" class="mono">/api/links/{code}</td><td data-label="Does">Deletes the link and its clicks</td><td data-label="Key">yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__inner">
+      <p>A student project for Nowatorski Projekt Indywidualny, 2026/27.</p>
+      <p>Runs on Cloudflare Workers (Python) and D1.</p>
+    </div>
+  </footer>
+
+  <script src="/home.js"></script>
+</body>
+</html>
